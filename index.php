@@ -151,7 +151,7 @@
                        wrongAnswer(6);
                     }
                     // Question 7
-                    if(q2Response == "mo") {
+                    if(q7Response == "wy") {
                         rightAnswer(7);
                     }
                     else {
