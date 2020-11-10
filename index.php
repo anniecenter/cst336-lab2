@@ -32,6 +32,22 @@
                     }
                 }
                 
+                displayQ9Choices();
+                
+                function displayQ9Choices() {
+                    let q9ChoicesArray = ["New Mexico, Oklahoma, Louisiana, Arkansas", 
+                                          "Kansas, New Mexico, Arkansas, Mississippi", 
+                                          "Oklahoma, Louisiana, Missouri, New Mexico", 
+                                          "Arkansas, Kansas, Oklahoma, Mississippi"];
+                    q9ChoicesArray = _.shuffle(q9ChoicesArray);
+                    
+                    for(let i = 0; i < q9ChoicesArray.length; i++) {
+                        $("#q9Choices").append(` <tr><td><input type="radio" name="q9" id="${q9ChoicesArray[i]}"
+                           value="${q9ChoicesArray[i]}"> <label for="${q9ChoicesArray[i]}"> ${
+                           q9ChoicesArray[i]}</label></tr></td>`);
+                    }
+                }
+                
                 // functions
                 function isFormValid() {
                     let isValid = true;
@@ -67,7 +83,7 @@
                     $(`#q${index}Feedback`).html("Correct!");
                     $(`#q${index}Feedback`).attr("class", "bg-success text-white");
                     $(`#markImg${index}`).html("<img src='img/checkmark.png' alt='checkmark'>");
-                    score += 20;
+                    score += 10;
                 }
                 
                 function wrongAnswer(index) {
@@ -88,6 +104,8 @@
                     let q1Response = $("#q1").val().toLowerCase();
                     let q2Response = $("#q2").val();
                     let q4Response = $("input[name=q4]:checked").val();
+                    let q6Response = $("#q6").val().toLowerCase();
+                    let q9Response = $("input[name=q9]:checked").val();
                     
                     // Question 1
                     if(q1Response == "sacramento") {
@@ -96,7 +114,6 @@
                     else {
                        wrongAnswer(1);
                     }
-                    
                     // Question 2
                     if(q2Response == "mo") {
                         rightAnswer(2);
@@ -104,7 +121,6 @@
                     else {
                         wrongAnswer(2);
                     }
-                    
                     // Question 3
                     if($("#Jefferson").is(":checked") && $("#Roosevelt").is(":checked")
                         && !$("#Jackson").is(":checked") && !$("#Franklin").is(":checked")) {
@@ -113,7 +129,6 @@
                     else {
                         wrongAnswer(3);
                     }
-                    
                     // Question 4
                     if(q4Response == "Rhode Island") {
                         rightAnswer(4);
@@ -121,7 +136,6 @@
                     else {
                         wrongAnswer(4);
                     }
-                    
                     // Question 5
                     if($("#seal2").css("background-color") == "rgb(255, 255, 0)") {
                         rightAnswer(5);
@@ -129,15 +143,54 @@
                     else {
                         wrongAnswer(5);
                     }
+                    // Question 6
+                    if(q6Response == "new jersey") {
+                        rightAnswer(6);
+                    }
+                    else {
+                       wrongAnswer(6);
+                    }
+                    // Question 7
+                    if(q2Response == "mo") {
+                        rightAnswer(7);
+                    }
+                    else {
+                        wrongAnswer(7);
+                    }
+                    // Question 8
+                    if($("#or").is(":checked") && !$("#wa").is(":checked")
+                        && $("#nv").is(":checked") && $("#az").is(":checked")) {
+                        rightAnswer(8);
+                    }
+                    else {
+                        wrongAnswer(8);
+                    }
+                    // Question 9
+                    if(q9Response == "New Mexico, Oklahoma, Louisiana, Arkansas") {
+                        rightAnswer(9);
+                    }
+                    else {
+                        wrongAnswer(9);
+                    }
                     
-                    $("#totalScore").html(`Total Score: ${score}`);
+                    // Scoring
+                    if (score < 80) {
+                        $("#totalScore").html(`Total Score: ${score}`);
+                        $("#totalScore").attr("class","text-danger");
+                    }
+                    else {
+                        $("#totalScore").html(`Total Score: ${score}`);
+                        $("#totalScore").attr("class","text-success");
+                        $("#validationFdbk").attr("class","bg-success text-white");
+                        $("#validationFdbk").html("Wow! That's a great score!");
+                    }
                     $("#totalAttempts").html(`Total Attempts: ${++attempts}`);
                     localStorage.setItem("total_attempts", attempts);
                 }
             });//ready
         </script>
     </head>
-    <body class="text-center">
+    <body  class="text-center">
         <h1 class="jumbotron">US Geography Quiz</h1>
         <!-- Question 1 -->
         <h3><span id="markImg1"></span>What is the capital of California?</h3>
@@ -179,11 +232,46 @@
         <img src="img/seal3.png" alt="Seal 3" class="q5Choice" id="seal3">
         <br></br>
         <div id="q5Feedback"></div>
-        <br></br>
-        <!-- Validation Feedback -->
-        <h3 id="validationFdbk" class='bg-danger text-white'></h3>        
-        <button class="btn btn-outline-success">Submit Quiz</button>
+        </br>
+        <!-- Question 6 -->
+        <h3><span id="markImg6"></span>What state is the Statue of Liberty in?</h3>
+        <input type="text" id="q6">
+        <br><br>
+        <div id="q6Feedback"></div>
         <br>
+        <!-- Question 7 -->
+        <h3><span id="markImg7"></span>What is the least populated state?</h3>
+        <select id="q7">
+            <option value="">Select One</option>
+            <option value="ri">Rhode Island</option>
+            <option value="ct">Connecticut</option>
+            <option value="wy">Wyoming</option>
+            <option value="de">Delaware</option>
+        </select>
+        <br><br>
+        <div id="q7Feedback"></div>
+        <br>
+        <!-- Question 8 -->
+        <h3><span id="markImg8"></span>Which states border California?</h3>
+        <table class="table">
+            <tr><td><input type="checkbox" id="or"> <label for="or">Oregon</label></td></tr>
+            <tr><td><input type="checkbox" id="wa"> <label for="wa">Washington</label></td></tr>
+            <tr><td><input type="checkbox" id="nv"> <label for="nv">Nevada</label></td></tr>
+            <tr><td><input type="checkbox" id="az"> <label for="az">Arizona</label></td></tr>
+        </table>
+        <div id="q8Feedback"></div>
+        <br>
+        <!-- Question 9 -->
+        <h3><span id="markImg9"></span>Which states border Texas?</h3>
+        <table class="table" id="q9Choices"></table>
+        <br>
+        <div id="q9Feedback"></div>
+        <br>
+        <!-- Validation Feedback -->
+        <h3 id="validationFdbk" class='bg-danger text-white'></h3>
+        <br>
+        <button class="btn btn-outline-success">Submit Quiz</button>
+        <br></br>
         <!-- Total Score -->
         <h2 id="totalScore" class="text-info"></h2>
         <!-- Total Attempts -->
