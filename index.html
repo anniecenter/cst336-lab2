@@ -107,6 +107,7 @@
                     let q6Response = $("#q6").val().toLowerCase();
                     let q7Response = $("#q7").val();
                     let q9Response = $("input[name=q9]:checked").val();
+                    let q10Response = $("#q10").val().toLowerCase();
                     
                     // Question 1
                     if(q1Response == "sacramento") {
@@ -172,6 +173,13 @@
                     }
                     else {
                         wrongAnswer(9);
+                    }
+                    // Question 10
+                    if(q10Response == "washington dc" || q10Response == "washington d.c.") {
+                        rightAnswer(10);
+                    }
+                    else {
+                       wrongAnswer(10);
                     }
                     
                     // Scoring
@@ -267,6 +275,12 @@
         <table class="table" id="q9Choices"></table>
         <br>
         <div id="q9Feedback"></div>
+        <br>
+        <!-- Question 10 -->
+        <h3><span id="markImg10"></span>What is the capital of the US?</h3>
+        <input type="text" id="q10">
+        <br><br>
+        <div id="q10Feedback"></div>
         <br>
         <!-- Validation Feedback -->
         <h3 id="validationFdbk" class='bg-danger text-white'></h3>
